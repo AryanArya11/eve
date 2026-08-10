@@ -41,7 +41,7 @@ def test_non_string_attempt_id(attempt_id: str) -> None:
             attempt_number= 1
         )
 
-@pytest.mark.parametrize("attempt_id", ["", "   ", " attempt-001"])
+@pytest.mark.parametrize("attempt_id", ["", "   ", " attempt-001", "attempt-001 "])
 def test_blank_attempt_id(attempt_id: str) -> None:
     with pytest.raises(ValueError):
         attempt = ExecutionAttempt(
@@ -59,7 +59,7 @@ def test_non_string_task_id(task_id: str) -> None:
             attempt_number= 1
         )
 
-@pytest.mark.parametrize("task_id", ['', '   ', ' task-001'])
+@pytest.mark.parametrize("task_id", ['', '   ', ' task-001', 'task-001 '])
 def test_blank_task_id(task_id: str) -> None:
     with pytest.raises(ValueError):
         attempt = ExecutionAttempt(
@@ -116,4 +116,3 @@ def test_attempt_survives_pickle_round_trip() -> None:
     restored = pickle.loads(serialized)
 
     assert restored == original
-    
