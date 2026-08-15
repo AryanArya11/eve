@@ -30,8 +30,12 @@ def sum_range(payload: object) -> int:
         count += i
     return count
 
+def echo(payload: object) -> object:
+    return payload
+
 _WORKLOAD_HANDLERS: dict[str, Callable[[object], object]] = {
     "sum-range": sum_range,
+    "echo": echo,
 }
 
 def execute_workload(workload: object, payload: object) -> object:

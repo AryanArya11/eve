@@ -62,7 +62,7 @@ The registry acts as an allowlist. Eve does not evaluate the workload string as 
 - payload structure
     * The `payload` is expected as a `dict`
     * Runs through verifications to process request
-    * The payload does not contain both `start` and `stop`
+    * The payload must contain both `start` and `stop`
     * Outputs summed integer of all values between `start` (included) and `stop` (excluded)
 
 - start-inclusive behavior
@@ -81,6 +81,15 @@ The registry acts as an allowlist. Eve does not evaluate the workload string as 
     * Rejects:
         - All other datatypes
 
+## Echo Contract
+
+The `echo` workload returns its payload unchanged. It accepts any object,
+including `None`.
+
+This workload allows Eve to verify that a successful execution returning
+`None` remains distinguishable from a failed execution.
+
+
 ## Validation
 
 - Payload Errors
@@ -91,6 +100,7 @@ The registry acts as an allowlist. Eve does not evaluate the workload string as 
     
     ValueError:
     * start cannot be greater than stop
+    * the payload is missing start or stop
 
 - Workload Errors
     TypeError:
@@ -99,12 +109,11 @@ The registry acts as an allowlist. Eve does not evaluate the workload string as 
     ValueError:
     * workload is not member of `_WORKLOAD_HANDLERS`
 
-## Future Worker Flow
+## Worker Outcome Conversion
 
-Task workload and payload
--> registered handler
--> returned value or exception
--> TaskOutcome
+-> returned value → SUCCESS outcome
+-> raised Exception → FAILURE outcome with TaskError
+-> invalid QueuedExecution → TypeError
 
 ## Concurrency
 

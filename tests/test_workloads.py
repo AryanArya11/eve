@@ -66,3 +66,15 @@ def test_execute_workload_rejects_non_string_name(workload: object) -> None:
     payload = {'start':1, 'stop':10}
     with pytest.raises(TypeError):
         execute_workload(workload=workload, payload=payload)
+
+def test_echo_returns_none() -> None:
+    payload = None
+    exec = execute_workload(workload='echo', payload=payload)
+
+    assert exec is None
+
+def test_echo_returns_object() -> None:
+    payload = {'start':1, 'stop':10}
+    exec = execute_workload(workload='echo', payload=payload)
+
+    assert exec is payload
