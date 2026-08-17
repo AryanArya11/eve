@@ -29,6 +29,7 @@ For example, the registry may contain:
 ```python
 _WORKLOAD_HANDLERS = {
     "sum-range": sum_range,
+    "echo": echo,
 }
 ```
 
@@ -118,3 +119,39 @@ This workload allows Eve to verify that a successful execution returning
 ## Concurrency
 
 Workload functions must be module-level so they can later be serialized for windows spawned worker processes.
+
+## Process Boundary
+
+The coordinator submits a `QueuedExecution` to a worker created with the
+multiprocessing `spawn` context. Python serializes the execution before
+sending it to the worker.
+
+The worker calls `execute_queued_execution` and returns a serialized
+`ProcessExecutionResult` to the coordinator.
+
+## Process Execution Result
+
+A `ProcessExecutionResult` contains:
+
+- `attempt_id`: the Attempt that produced the result
+- `worker_pid`: the operating-system process ID of the worker
+- `outcome`: the successful or failed `TaskOutcome`
+
+The worker PID allows Eve to verify that execution occurred outside the
+coordinator process.
+
+## Failure Boundary
+
+Workload exceptions are converted into failed `TaskOutcome` objects.
+
+Process startup failures, serialization failures, and unexpected worker
+termination are infrastructure failures. They propagate through the Future
+to the coordinator rather than being converted into workload failures.
+
+## Current Limitation
+
+Version 0.1A creates a one-worker executor for each execution. This provides
+simple and deterministic process behavior.
+
+A persistent multi-worker pool, timeouts, and worker reuse are deferred to
+a later version.
