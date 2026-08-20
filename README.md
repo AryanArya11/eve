@@ -47,7 +47,7 @@ flowchart TD
     enqueue --> fifo[LocalExecutionQueue FIFO]
     fifo --> dequeue[Dequeue oldest item]
     dequeue --> assign["QUEUED to ASSIGNED to RUNNING"]
-    assign --> worker["worker.execute_queued_execution"]
+    assign --> worker["Worker runs the task"]
     worker --> success{Outcome?}
     success -->|SUCCESS| succeeded[RUNNING to SUCCEEDED]
     success -->|FAILURE| failed[RUNNING to FAILED]
