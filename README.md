@@ -44,7 +44,7 @@ flowchart TD
     attempts --> memory[Track ExecutionState per attempt]
     memory --> build[Build QueuedExecution entries]
     build --> enqueue["Enqueue: SUBMITTED to QUEUED"]
-    enqueue --> fifo[LocalExecutionQueue FIFO]
+    enqueue --> fifo[Task waiting line]
     fifo --> dequeue[Dequeue oldest item]
     dequeue --> assign["QUEUED to ASSIGNED to RUNNING"]
     assign --> worker["Worker runs the task"]
