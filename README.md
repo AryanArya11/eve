@@ -52,8 +52,7 @@ flowchart TD
     success -->|SUCCESS| succeeded[RUNNING to SUCCEEDED]
     success -->|FAILURE| failed[RUNNING to FAILED]
     succeeded --> collect[Collect TaskOutcome]
-    failed --> collect
-    collect --> fifo
+    failed --> fifo
 ```
 
 ### Step by step
