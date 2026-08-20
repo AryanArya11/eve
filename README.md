@@ -87,28 +87,6 @@ flowchart TD
 
 ---
 
-## Try it yourself
-
-The best way to see the pipeline is to read the integration test top to bottom. It walks through the same seven steps above with two tasks — one that succeeds and one that fails cleanly:
-
-```
-tests/test_foundation.py
-```
-
-Run it:
-
-```bash
-pytest tests/test_foundation.py -q
-```
-
-Run the full test suite:
-
-```bash
-pytest -q
-```
-
----
-
 ## Getting started
 
 **Requirements:** Python 3.14+
